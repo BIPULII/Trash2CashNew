@@ -1,7 +1,11 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const Header = ({ onAuthClick }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const navigate = useNavigate()
+  const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null
+  const user = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('user') || 'null') : null
 
   return (
     <header className="bg-white shadow-lg sticky top-0 z-50">
@@ -25,20 +29,35 @@ const Header = ({ onAuthClick }) => {
             <a href="#contact" className="text-gray-700 hover:text-green-600 transition-colors">Contact</a>
           </nav>
 
-          {/* Desktop Auth Buttons */}
+          {/* Desktop Auth Buttons or User Links */}
           <div className="hidden md:flex items-center space-x-4">
-            <button
-              onClick={() => onAuthClick('signin')}
-              className="text-gray-700 hover:text-green-600 transition-colors"
-            >
-              Sign In
-            </button>
-            <button
-              onClick={() => onAuthClick('signup')}
-              className="bg-gradient-to-r from-green-500 to-blue-600 text-white px-6 py-2 rounded-lg hover:from-green-600 hover:to-blue-700 transition-all duration-300 transform hover:scale-105"
-            >
-              Get Started
-            </button>
+            {token ? (
+              <>
+                <button onClick={() => navigate('/dashboard')} className="text-gray-700 hover:text-green-600">Dashboard</button>
+                <button onClick={() => navigate('/submit')} className="text-gray-700 hover:text-green-600">Submit Trash</button>
+                <button
+                  onClick={() => { localStorage.removeItem('token'); localStorage.removeItem('user'); navigate('/') }}
+                  className="text-red-600"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  onClick={() => onAuthClick('signin')}
+                  className="text-gray-700 hover:text-green-600 transition-colors"
+                >
+                  Sign In
+                </button>
+                <button
+                  onClick={() => onAuthClick('signup')}
+                  className="bg-gradient-to-r from-green-500 to-blue-600 text-white px-6 py-2 rounded-lg hover:from-green-600 hover:to-blue-700 transition-all duration-300 transform hover:scale-105"
+                >
+                  Get Started
+                </button>
+              </>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -62,18 +81,27 @@ const Header = ({ onAuthClick }) => {
               <a href="#features" className="text-gray-700 hover:text-green-600 transition-colors">Features</a>
               <a href="#about" className="text-gray-700 hover:text-green-600 transition-colors">About</a>
               <a href="#contact" className="text-gray-700 hover:text-green-600 transition-colors">Contact</a>
-              <button
-                onClick={() => onAuthClick('signin')}
-                className="text-left text-gray-700 hover:text-green-600 transition-colors"
-              >
-                Sign In
-              </button>
-              <button
-                onClick={() => onAuthClick('signup')}
-                className="bg-gradient-to-r from-green-500 to-blue-600 text-white px-6 py-2 rounded-lg hover:from-green-600 hover:to-blue-700 transition-all duration-300 w-fit"
-              >
-                Get Started
-              </button>
+              {token ? (
+                <>
+                  <button onClick={() => navigate('/dashboard')} className="text-left text-gray-700 hover:text-green-600 transition-colors">Dashboard</button>
+                  <button onClick={() => { localStorage.removeItem('token'); localStorage.removeItem('user'); navigate('/') }} className="text-left text-red-600">Logout</button>
+                </>
+              ) : (
+                <>
+                  <button
+                    onClick={() => onAuthClick('signin')}
+                    className="text-left text-gray-700 hover:text-green-600 transition-colors"
+                  >
+                    Sign In
+                  </button>
+                  <button
+                    onClick={() => onAuthClick('signup')}
+                    className="bg-gradient-to-r from-green-500 to-blue-600 text-white px-6 py-2 rounded-lg hover:from-green-600 hover:to-blue-700 transition-all duration-300 w-fit"
+                  >
+                    Get Started
+                  </button>
+                </>
+              )}
             </div>
           </div>
         )}

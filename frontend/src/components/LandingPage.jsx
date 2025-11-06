@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Header from './Header'
 import Hero from './Hero'
 import UserCategories from './UserCategories'
@@ -21,6 +22,14 @@ const LandingPage = () => {
     setIsAuthModalOpen(false)
   }
 
+  const navigate = useNavigate()
+
+  const handleAuthSuccess = (data) => {
+    // backend returns data.data with token and user info; we already store in localStorage in AuthModal,
+    // but navigate here to the dashboard
+    navigate('/dashboard')
+  }
+
   return (
     <div className="min-h-screen bg-white">
       <Header onAuthClick={openAuthModal} />
@@ -36,6 +45,7 @@ const LandingPage = () => {
           mode={authMode}
           userType={userType}
           onModeChange={setAuthMode}
+          onAuthSuccess={handleAuthSuccess}
         />
       )}
     </div>

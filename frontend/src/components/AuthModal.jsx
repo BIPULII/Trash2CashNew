@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-const AuthModal = ({ isOpen, onClose, mode, userType, onModeChange }) => {
+const AuthModal = ({ isOpen, onClose, mode, userType, onModeChange, onAuthSuccess }) => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -106,6 +106,8 @@ const AuthModal = ({ isOpen, onClose, mode, userType, onModeChange }) => {
           phone: ''
         })
         
+        // Notify parent that auth succeeded (so it can redirect to dashboard)
+        if (onAuthSuccess) onAuthSuccess(data)
         onClose()
       } else {
         console.error('Error:', data)
