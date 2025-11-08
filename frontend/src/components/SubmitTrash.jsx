@@ -25,14 +25,22 @@ const SubmitTrash = ({ onSubmitted }) => {
     setMessage(null)
 
     const token = localStorage.getItem('token')
+    // const payload = {
+    //   type: category.label,
+    //   categoryId: category.id,
+    //   amount: parsedAmount,
+    //   unit: category.unit,
+    //   reward: reward,
+    //   notes
+    // }
     const payload = {
-      type: category.label,
-      categoryId: category.id,
-      amount: parsedAmount,
-      unit: category.unit,
-      reward: reward,
-      notes
-    }
+  type: category.label,
+  quantity: parsedAmount,  // ✅ matches backend schema
+  unit: category.unit,
+  reward: reward,
+  notes
+}
+
 
     try {
       // Try to submit to backend; if backend not available, we still call onSubmitted with local object
@@ -40,7 +48,8 @@ const SubmitTrash = ({ onSubmitted }) => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          ...(token ? { Authorization: `Bearer ${token}` } : {})
+          // ...(token ? { Authorization: `Bearer ${token}` } : {})
+          "Authorization": `Bearer ${token}`,
         },
         body: JSON.stringify(payload)
       })

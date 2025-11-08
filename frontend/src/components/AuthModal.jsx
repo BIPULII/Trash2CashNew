@@ -20,7 +20,9 @@ const AuthModal = ({ isOpen, onClose, mode, userType, onModeChange, onAuthSucces
     e.preventDefault()
     
     try {
-      const endpoint = mode === 'signin' ? '/api/auth/login' : '/api/auth/register'
+      // const endpoint = mode === 'signin' ? '/api/auth/login' : '/api/auth/register'
+      const endpoint = mode === 'signin' ? '/api/users/login' : '/api/users/register'
+
       const url = `http://localhost:5000${endpoint}`
       
       // Validate required fields for signup
@@ -87,9 +89,8 @@ const AuthModal = ({ isOpen, onClose, mode, userType, onModeChange, onAuthSucces
       const data = await response.json()
       console.log('Response data:', data)
 
-      if (response.ok) {
+      if (data.success) {
         console.log('Success:', data)
-        alert(mode === 'signin' ? 'Login successful!' : 'Registration successful!')
         
         // Store token if available (both signin and signup return tokens)
         if (data.data && data.data.token) {
@@ -105,6 +106,9 @@ const AuthModal = ({ isOpen, onClose, mode, userType, onModeChange, onAuthSucces
           name: '',
           phone: ''
         })
+        
+        // Show success message
+        alert(data.message || (mode === 'signin' ? 'Login successful!' : 'Registration successful!'))
         
         // Notify parent that auth succeeded (so it can redirect to dashboard)
         if (onAuthSuccess) onAuthSuccess(data)

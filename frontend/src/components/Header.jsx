@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-const Header = ({ onAuthClick }) => {
+// mode: 'landing' | 'dashboard' - controls which nav items to show while keeping the same styles
+const Header = ({ onAuthClick, mode = 'landing' }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const navigate = useNavigate()
   const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null
@@ -23,40 +24,73 @@ const Header = ({ onAuthClick }) => {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            <a href="#home" className="text-gray-700 hover:text-green-600 transition-colors">Home</a>
-            <a href="#features" className="text-gray-700 hover:text-green-600 transition-colors">Features</a>
-            <a href="#about" className="text-gray-700 hover:text-green-600 transition-colors">About</a>
-            <a href="#contact" className="text-gray-700 hover:text-green-600 transition-colors">Contact</a>
+            {mode === 'landing' ? (
+              <>
+                <a href="#home" className="text-gray-700 hover:text-green-600 transition-colors">Home</a>
+                <a href="#features" className="text-gray-700 hover:text-green-600 transition-colors">Features</a>
+                <a href="#about" className="text-gray-700 hover:text-green-600 transition-colors">About</a>
+                <a href="#contact" className="text-gray-700 hover:text-green-600 transition-colors">Contact</a>
+              </>
+            ) : (
+              <>
+                <button onClick={() => navigate('/dashboard')} className="text-gray-700 hover:text-green-600 transition-colors">Dashboard</button>
+                <button onClick={() => navigate('/submit')} className="text-gray-700 hover:text-green-600 transition-colors">Submit Trash</button>
+                {/* <button onClick={() => navigate('/profile')} className="text-gray-700 hover:text-green-600 transition-colors">Profile</button>
+                <button onClick={() => navigate('/settings')} className="text-gray-700 hover:text-green-600 transition-colors">Settings</button> */}
+              </>
+            )}
           </nav>
 
           {/* Desktop Auth Buttons or User Links */}
           <div className="hidden md:flex items-center space-x-4">
-            {token ? (
-              <>
-                <button onClick={() => navigate('/dashboard')} className="text-gray-700 hover:text-green-600">Dashboard</button>
-                <button onClick={() => navigate('/submit')} className="text-gray-700 hover:text-green-600">Submit Trash</button>
-                <button
-                  onClick={() => { localStorage.removeItem('token'); localStorage.removeItem('user'); navigate('/') }}
-                  className="text-red-600"
-                >
-                  Logout
-                </button>
-              </>
+            {mode === 'landing' ? (
+              token ? (
+                <>
+                  <button onClick={() => navigate('/dashboard')} className="text-gray-700 hover:text-green-600">Dashboard</button>
+                  <button onClick={() => navigate('/submit')} className="text-gray-700 hover:text-green-600">Submit Trash</button>
+                  <button
+                    onClick={() => { localStorage.removeItem('token'); localStorage.removeItem('user'); navigate('/') }}
+                    className="text-red-600"
+                  >
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button
+                    onClick={() => onAuthClick && onAuthClick('signin')}
+                    className="text-gray-700 hover:text-green-600 transition-colors"
+                  >
+                    Sign In
+                  </button>
+                  <button
+                    onClick={() => onAuthClick && onAuthClick('signup')}
+                    className="bg-gradient-to-r from-green-500 to-blue-600 text-white px-6 py-2 rounded-lg hover:from-green-600 hover:to-blue-700 transition-all duration-300 transform hover:scale-105"
+                  >
+                    Get Started
+                  </button>
+                </>
+              )
             ) : (
-              <>
-                <button
-                  onClick={() => onAuthClick('signin')}
-                  className="text-gray-700 hover:text-green-600 transition-colors"
-                >
-                  Sign In
-                </button>
-                <button
-                  onClick={() => onAuthClick('signup')}
-                  className="bg-gradient-to-r from-green-500 to-blue-600 text-white px-6 py-2 rounded-lg hover:from-green-600 hover:to-blue-700 transition-all duration-300 transform hover:scale-105"
-                >
-                  Get Started
-                </button>
-              </>
+              // dashboard mode: show user quick info and logout
+              token ? (
+                <>
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-full bg-green-400 flex items-center justify-center text-white text-sm font-semibold">{user?.name?.charAt(0) || 'U'}</div>
+                    <div className="text-sm text-gray-700">{user?.name || 'User'}</div>
+                  </div>
+                  <button
+                    onClick={() => { localStorage.removeItem('token'); localStorage.removeItem('user'); navigate('/') }}
+                    className="text-red-600"
+                  >
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button onClick={() => navigate('/')} className="text-gray-700 hover:text-green-600">Home</button>
+                </>
+              )
             )}
           </div>
 
@@ -73,34 +107,56 @@ const Header = ({ onAuthClick }) => {
           </div>
         </div>
 
-        {/* Mobile Menu */}
+          {/* Mobile Menu */}
         {isMobileMenuOpen && (
           <div className="md:hidden pb-4">
             <div className="flex flex-col space-y-4">
-              <a href="#home" className="text-gray-700 hover:text-green-600 transition-colors">Home</a>
-              <a href="#features" className="text-gray-700 hover:text-green-600 transition-colors">Features</a>
-              <a href="#about" className="text-gray-700 hover:text-green-600 transition-colors">About</a>
-              <a href="#contact" className="text-gray-700 hover:text-green-600 transition-colors">Contact</a>
-              {token ? (
+              {mode === 'landing' ? (
                 <>
-                  <button onClick={() => navigate('/dashboard')} className="text-left text-gray-700 hover:text-green-600 transition-colors">Dashboard</button>
-                  <button onClick={() => { localStorage.removeItem('token'); localStorage.removeItem('user'); navigate('/') }} className="text-left text-red-600">Logout</button>
+                  <a href="#home" className="text-gray-700 hover:text-green-600 transition-colors">Home</a>
+                  <a href="#features" className="text-gray-700 hover:text-green-600 transition-colors">Features</a>
+                  <a href="#about" className="text-gray-700 hover:text-green-600 transition-colors">About</a>
+                  <a href="#contact" className="text-gray-700 hover:text-green-600 transition-colors">Contact</a>
                 </>
               ) : (
                 <>
-                  <button
-                    onClick={() => onAuthClick('signin')}
-                    className="text-left text-gray-700 hover:text-green-600 transition-colors"
-                  >
-                    Sign In
-                  </button>
-                  <button
-                    onClick={() => onAuthClick('signup')}
-                    className="bg-gradient-to-r from-green-500 to-blue-600 text-white px-6 py-2 rounded-lg hover:from-green-600 hover:to-blue-700 transition-all duration-300 w-fit"
-                  >
-                    Get Started
-                  </button>
+                  <button onClick={() => navigate('/dashboard')} className="text-left text-gray-700 hover:text-green-600 transition-colors">Dashboard</button>
+                  <button onClick={() => navigate('/submit')} className="text-left text-gray-700 hover:text-green-600 transition-colors">Submit Trash</button>
+                  {/* <button onClick={() => navigate('/profile')} className="text-left text-gray-700 hover:text-green-600 transition-colors">Profile</button> */}
                 </>
+              )}
+
+              {mode === 'landing' ? (
+                token ? (
+                  <>
+                    <button onClick={() => navigate('/dashboard')} className="text-left text-gray-700 hover:text-green-600 transition-colors">Dashboard</button>
+                    <button onClick={() => { localStorage.removeItem('token'); localStorage.removeItem('user'); navigate('/') }} className="text-left text-red-600">Logout</button>
+                  </>
+                ) : (
+                  <>
+                    <button
+                      onClick={() => onAuthClick && onAuthClick('signin')}
+                      className="text-left text-gray-700 hover:text-green-600 transition-colors"
+                    >
+                      Sign In
+                    </button>
+                    <button
+                      onClick={() => onAuthClick && onAuthClick('signup')}
+                      className="bg-gradient-to-r from-green-500 to-blue-600 text-white px-6 py-2 rounded-lg hover:from-green-600 hover:to-blue-700 transition-all duration-300 w-fit"
+                    >
+                      Get Started
+                    </button>
+                  </>
+                )
+              ) : (
+                token ? (
+                  <>
+                    <div className="text-left text-gray-700">{user?.name || 'User'}</div>
+                    <button onClick={() => { localStorage.removeItem('token'); localStorage.removeItem('user'); navigate('/') }} className="text-left text-red-600">Logout</button>
+                  </>
+                ) : (
+                  <button onClick={() => navigate('/')} className="text-left text-gray-700 hover:text-green-600 transition-colors">Home</button>
+                )
               )}
             </div>
           </div>
