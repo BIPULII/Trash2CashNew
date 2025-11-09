@@ -7,7 +7,7 @@ pipeline {
                 echo '📥 Cloning Trash2CashNew repository...'
                 git branch: 'main',
                     url: 'https://github.com/BIPULII/Trash2CashNew.git',
-                    credentialsId: 'github-tokennew'
+                    credentialsId: 'github-token'
             }
         }
 
