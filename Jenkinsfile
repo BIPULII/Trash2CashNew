@@ -42,7 +42,12 @@ pipeline {
                 sh 'docker compose logs --tail=20'
             }
         }
+            stage('Deploy') {
+        steps {
+            sh 'docker-compose down || true'
+            sh 'docker-compose up -d'
     }
+}
 
     post {
         success {
