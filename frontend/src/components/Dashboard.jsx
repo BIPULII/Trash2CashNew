@@ -455,7 +455,7 @@ const Dashboard = () => {
                         <div className="text-sm text-gray-500">Unit: {c.unit}</div>
                       </div>
                       <div className="text-right">
-                        <div className="text-sm text-gray-500">Price</div>
+                        <div className="text-sm text-gray-500">Price tag</div>
                         <div className="font-semibold">LKR {c.pricePerUnit}/{c.unit}</div>
                       </div>
                     </li>
