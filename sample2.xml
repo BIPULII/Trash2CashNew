@@ -1,0 +1,124 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="CI-CD-EKS">
+    <mxGraphModel dx="1260" dy="720" grid="1" gridSize="10" guides="1" tooltips="1" connect="1">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- Developer -->
+        <mxCell id="dev" value="Developer&#10;Commit Code"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf"
+          vertex="1" parent="1">
+          <mxGeometry x="80" y="20" width="140" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- GitHub -->
+        <mxCell id="github" value="GitHub Repository"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000"
+          vertex="1" parent="1">
+          <mxGeometry x="80" y="120" width="160" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- Jenkins -->
+        <mxCell id="jenkins" value="Jenkins CI&#10;(Webhook Trigger)"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450"
+          vertex="1" parent="1">
+          <mxGeometry x="80" y="220" width="180" height="70" as="geometry"/>
+        </mxCell>
+
+        <!-- Build Test -->
+        <mxCell id="build" value="Build &amp; Test"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656"
+          vertex="1" parent="1">
+          <mxGeometry x="60" y="330" width="160" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- Security Scan -->
+        <mxCell id="scan" value="Security Scan"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656"
+          vertex="1" parent="1">
+          <mxGeometry x="60" y="410" width="160" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- Docker Build -->
+        <mxCell id="docker" value="Docker Build"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6"
+          vertex="1" parent="1">
+          <mxGeometry x="60" y="500" width="160" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- ECR -->
+        <mxCell id="ecr" value="Docker Registry&#10;AWS ECR"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6"
+          vertex="1" parent="1">
+          <mxGeometry x="60" y="580" width="180" height="70" as="geometry"/>
+        </mxCell>
+
+        <!-- Terraform -->
+        <mxCell id="terraform" value="Terraform IaC"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366"
+          vertex="1" parent="1">
+          <mxGeometry x="320" y="260" width="160" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- AWS Infra -->
+        <mxCell id="aws" value="AWS Infrastructure&#10;VPC, Subnets&#10;Security Groups&#10;EKS, EC2, ALB"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf"
+          vertex="1" parent="1">
+          <mxGeometry x="300" y="360" width="220" height="120" as="geometry"/>
+        </mxCell>
+
+        <!-- Kubectl Deploy -->
+        <mxCell id="kubectl" value="Deploy using kubectl"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656"
+          vertex="1" parent="1">
+          <mxGeometry x="260" y="520" width="220" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- EKS -->
+        <mxCell id="eks" value="Kubernetes Cluster&#10;(Amazon EKS)"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366"
+          vertex="1" parent="1">
+          <mxGeometry x="260" y="610" width="220" height="70" as="geometry"/>
+        </mxCell>
+
+        <!-- Ingress -->
+        <mxCell id="ingress" value="Ingress &amp; Load Balancer"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450"
+          vertex="1" parent="1">
+          <mxGeometry x="620" y="160" width="220" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- Pods -->
+        <mxCell id="pods" value="Application Pods"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf"
+          vertex="1" parent="1">
+          <mxGeometry x="640" y="260" width="200" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- Database -->
+        <mxCell id="db" value="Database"
+          style="shape=cylinder;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366"
+          vertex="1" parent="1">
+          <mxGeometry x="660" y="360" width="160" height="80" as="geometry"/>
+        </mxCell>
+
+        <!-- Connections -->
+        <mxCell id="e1" source="dev" target="github" edge="1" parent="1"/>
+        <mxCell id="e2" source="github" target="jenkins" edge="1" parent="1"/>
+        <mxCell id="e3" source="jenkins" target="build" edge="1" parent="1"/>
+        <mxCell id="e4" source="build" target="scan" edge="1" parent="1"/>
+        <mxCell id="e5" source="scan" target="docker" edge="1" parent="1"/>
+        <mxCell id="e6" source="docker" target="ecr" edge="1" parent="1"/>
+        <mxCell id="e7" source="jenkins" target="terraform" edge="1" parent="1"/>
+        <mxCell id="e8" source="terraform" target="aws" edge="1" parent="1"/>
+        <mxCell id="e9" source="aws" target="kubectl" edge="1" parent="1"/>
+        <mxCell id="e10" source="kubectl" target="eks" edge="1" parent="1"/>
+        <mxCell id="e11" source="eks" target="ingress" edge="1" parent="1"/>
+        <mxCell id="e12" source="ingress" target="pods" edge="1" parent="1"/>
+        <mxCell id="e13" source="pods" target="db" edge="1" parent="1"/>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
