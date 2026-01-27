@@ -57,8 +57,8 @@
 //         const headers = { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` }
 
 //         const [sumRes, subsRes] = await Promise.all([
-//           fetch('http://localhost:5000/api/user/summary', { headers, signal: controller.signal }),
-//           fetch('http://localhost:5000/api/user/submissions?limit=10', { headers, signal: controller.signal })
+//           fetch('http://13.232.143.45:5000/api/user/summary', { headers, signal: controller.signal }),
+//           fetch('http://13.232.143.45:5000/api/user/submissions?limit=10', { headers, signal: controller.signal })
 //         ])
 
 //         let sumJson = null
@@ -302,8 +302,8 @@ const Dashboard = () => {
 
         // ✅ Updated endpoints to match backend
         const [sumRes, subsRes] = await Promise.all([
-          fetch('http://localhost:5000/api/submissions/summary', { headers, signal: controller.signal }),
-          fetch('http://localhost:5000/api/submissions', { headers, signal: controller.signal })
+          fetch('http://13.232.143.45:5000/api/submissions/summary', { headers, signal: controller.signal }),
+          fetch('http://13.232.143.45:5000/api/submissions', { headers, signal: controller.signal })
         ])
 
         let sumJson = null
