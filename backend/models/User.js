@@ -117,6 +117,11 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please add a phone number'],
     trim: true
+  },
+  role: {
+    type: String,
+    enum: ['user', 'admin'],
+    default: 'user'
   }
 }, {
   timestamps: true
