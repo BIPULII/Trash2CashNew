@@ -7,7 +7,7 @@ const UserCategories = ({ onAuthClick }) => {
             Start Your Recycling Journey
           </h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Turn your household waste into income and contribute to a sustainable future rightnow...........
+            Turn your household waste into income and contribute to a sustainable future with Trash2Cash. Whether you're a casual recycler or a dedicated eco-warrior, our platform makes it easy to sell your recyclables and make a positive impact on the environment.
           </p>
         </div>
 
