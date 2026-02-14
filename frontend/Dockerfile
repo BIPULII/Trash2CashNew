@@ -1,11 +1,13 @@
 # Frontend Dockerfile
 FROM node:18 as build
 
+ARG VITE_API_URL=http://localhost:5000
+
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
-RUN npm run build
+RUN VITE_API_URL=${VITE_API_URL} npm run build
 
 # Serve static files using nginx
 FROM nginx:alpine
