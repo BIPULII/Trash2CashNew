@@ -7,7 +7,7 @@ const UserCategories = ({ onAuthClick }) => {
             Start Your Recycling Journey
           </h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Turn your household waste into income and contribute to a sustainable future.
+            Turn your household waste into income and contribute to a sustainable future.....
           </p>
         </div>
 
