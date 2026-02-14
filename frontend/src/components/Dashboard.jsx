@@ -301,9 +301,10 @@ const Dashboard = () => {
         const headers = { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` }
 
         // ✅ Updated endpoints to match backend
+        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000'
         const [sumRes, subsRes] = await Promise.all([
-          fetch('http://13.232.143.45:5000/api/submissions/summary', { headers, signal: controller.signal }),
-          fetch('http://13.232.143.45:5000/api/submissions', { headers, signal: controller.signal })
+          fetch(`${apiUrl}/api/submissions/summary`, { headers, signal: controller.signal }),
+          fetch(`${apiUrl}/api/submissions`, { headers, signal: controller.signal })
         ])
 
         let sumJson = null

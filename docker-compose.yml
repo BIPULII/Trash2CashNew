@@ -15,11 +15,15 @@ services:
       - "5000:5000"
     environment:
       - MONGO_URI=mongodb://mongo:27017/mern_db
+      - JWT_SECRET=trash2cash_jwt_secret_key_change_in_production
     depends_on:
       - mongodb
 
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
+      args:
+        VITE_API_URL: http://13.232.143.45:5000
     container_name: frontend
     ports:
       - "3000:80"
