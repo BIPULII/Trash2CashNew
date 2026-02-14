@@ -44,7 +44,7 @@ const SubmitTrash = ({ onSubmitted }) => {
 
     try {
       // Try to submit to backend; if backend not available, we still call onSubmitted with local object
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000'
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://13.232.143.45:5000'
       const res = await fetch(`${apiUrl}/api/submissions`, {
         method: 'POST',
         headers: {

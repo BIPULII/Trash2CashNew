@@ -23,7 +23,7 @@ const AuthModal = ({ isOpen, onClose, mode, userType, onModeChange, onAuthSucces
       // const endpoint = mode === 'signin' ? '/api/auth/login' : '/api/auth/register'
       const endpoint = mode === 'signin' ? '/api/users/login' : '/api/users/register'
 
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000'
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://13.232.143.45:5000'
       const url = `${apiUrl}${endpoint}`
       
       // Validate required fields for signup
