@@ -3,13 +3,14 @@ const Submission = require('../models/Submission');
 // Create new submission
 const createSubmission = async (req, res) => {
   try {
-    const { type, quantity, unit, notes } = req.body;
+    const { type, quantity, unit, reward, notes } = req.body;
     
     const submission = await Submission.create({
       user: req.user.id,
       type,
       quantity,
       unit,
+      reward: reward || 0,
       notes
     });
 

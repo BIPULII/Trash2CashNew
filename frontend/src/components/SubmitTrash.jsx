@@ -61,10 +61,12 @@ const SubmitTrash = ({ onSubmitted }) => {
       // Build new submission object for UI
       const newSubmission = {
         date: new Date().toISOString().slice(0, 10),
+        createdAt: new Date().toISOString(),
         type: category.label,
-        quantity: parsedAmount + ' ' + category.unit,
+        quantity: parsedAmount,
+        unit: category.unit,
         status: res && res.ok ? 'Pending' : 'Pending',
-        reward: `LKR ${reward}`
+        reward: reward
       }
 
       setMessage({ type: 'success', text: 'Submission added' })
@@ -77,10 +79,12 @@ const SubmitTrash = ({ onSubmitted }) => {
       setMessage({ type: 'error', text: 'Network error - could not submit. Added locally.' })
       const newSubmission = {
         date: new Date().toISOString().slice(0, 10),
+        createdAt: new Date().toISOString(),
         type: category.label,
-        quantity: parsedAmount + ' ' + category.unit,
+        quantity: parsedAmount,
+        unit: category.unit,
         status: 'Pending',
-        reward: `LKR ${reward}`
+        reward: reward
       }
       if (onSubmitted) onSubmitted(newSubmission)
     } finally {
