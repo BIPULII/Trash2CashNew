@@ -1,0 +1,33 @@
+name: Deploy Trash2Cash (Update Branch)
+
+on:
+  push:
+    branches:
+      - update  # This tells GitHub to run this only for the 'update' branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Deploy to EC2 via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            # 1. Move into the app directory
+            cd ~/app
+            
+            # 2. Update the code from the 'update' branch
+            git fetch origin update
+            git reset --hard origin/update
+            
+            # 3. Rebuild and restart the containers
+            # --build ensures the Dockerfile changes are applied
+            docker-compose down
+            docker-compose up -d --build

@@ -57,8 +57,8 @@
 //         const headers = { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` }
 
 //         const [sumRes, subsRes] = await Promise.all([
-//           fetch('http://localhost:5000/api/user/summary', { headers, signal: controller.signal }),
-//           fetch('http://localhost:5000/api/user/submissions?limit=10', { headers, signal: controller.signal })
+//           fetch('http://13.232.143.45:5000/api/user/summary', { headers, signal: controller.signal }),
+//           fetch('http://13.232.143.45:5000/api/user/submissions?limit=10', { headers, signal: controller.signal })
 //         ])
 
 //         let sumJson = null
@@ -301,9 +301,10 @@ const Dashboard = () => {
         const headers = { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` }
 
         // ✅ Updated endpoints to match backend
+        const apiUrl = import.meta.env.VITE_API_URL || 'http://13.232.143.45:5000'
         const [sumRes, subsRes] = await Promise.all([
-          fetch('http://localhost:5000/api/submissions/summary', { headers, signal: controller.signal }),
-          fetch('http://localhost:5000/api/submissions', { headers, signal: controller.signal })
+          fetch(`${apiUrl}/api/submissions/summary`, { headers, signal: controller.signal }),
+          fetch(`${apiUrl}/api/submissions`, { headers, signal: controller.signal })
         ])
 
         let sumJson = null
@@ -324,8 +325,8 @@ const Dashboard = () => {
 
         if (!subsJson || !Array.isArray(subsJson)) {
           subsJson = [
-            { date: '2025-11-05', type: 'Plastic Bottles', quantity: '10 kg', status: 'Approved', reward: 'LKR 150' },
-            { date: '2025-11-02', type: 'E-waste', quantity: '2 pcs', status: 'Pending', reward: '-' }
+            { createdAt: '2025-11-05', type: 'Plastic Bottles', quantity: 10, unit: 'kg', status: 'Approved', reward: 150 },
+            { createdAt: '2025-11-02', type: 'E-waste', quantity: 2, unit: 'pcs', status: 'Pending', reward: 400 }
           ]
         }
 
@@ -425,7 +426,9 @@ const Dashboard = () => {
             {submissions.length === 0 ? (
               <div className="text-sm text-gray-500">No submissions yet. Use the "Submit Trash" button to add items.</div>
             ) : (
-              submissions.map((s, idx) => (
+              submissions.map((s, idx) => {
+                const rewardAmount = typeof s.reward === 'number' ? s.reward : (typeof s.reward === 'string' ? parseFloat(s.reward) : 0);
+                return (
                 <div key={idx} className="flex items-center justify-between border border-gray-100 p-4 rounded-lg">
                   <div>
                     <div className="text-sm text-gray-500">{new Date(s.createdAt).toLocaleDateString()}</div>
@@ -433,11 +436,12 @@ const Dashboard = () => {
                     <div className="text-sm text-gray-500">{s.status}</div>
                   </div>
                   <div className="text-right">
-                    <div className="font-semibold">LKR {s.reward || 0}</div>
+                    <div className="font-semibold">LKR {rewardAmount}</div>
                     <div className="text-sm text-gray-400">{s.status === 'Pending' ? 'Processing' : 'Completed'}</div>
                   </div>
                 </div>
-              ))
+              );
+              })
             )}
           </div>
         </section>
